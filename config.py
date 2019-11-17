@@ -6,6 +6,10 @@ import numpy as np
 # RPi
 IF_IN_RPI = False  # False - will supress using RPI only libraries
 
+HOST_IP = "192.168.1.76"
+HOST_PORT = 65000
+
+
 # Window
 WINDOW_ORIGINAL_IMAGE = "Lab 4: Original"
 WINDOW_MODIFIED_IMAGE = "Lab 4: Modified"
