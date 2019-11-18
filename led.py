@@ -22,6 +22,7 @@ class LED:
             self.mode = not self.mode
             print(f"LED {self.pin} is on!")
             if cfg.IF_IN_RPI:
+                print("RPI on")
                 GPIO.output(self.pin, True)
 
     def turn_off(self):

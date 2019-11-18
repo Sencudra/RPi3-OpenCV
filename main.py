@@ -42,8 +42,10 @@ if __name__ == "__main__":
         # LEDs
         if center_list:
             gpio.signal_led.turn_on()
+            gpio.pi.turn_on()
         else:
             gpio.signal_led.turn_off()
+            gpio.pi.turn_off()
 
         # Servo
         if center_list:

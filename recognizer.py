@@ -15,14 +15,17 @@ class Recognizer:
             return hue, saturation, value
 
         def filter_color(frame, lower_threshold, upper_threshold):
-            clone = frame.copy()
-            hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-            hsv_lower_norm = hsv_normilize(*cfg.THRESHOLD_LOWER_BLUE)
-            hsv_upper_norm = hsv_normilize(*cfg.THRESHOLD_UPPER_BLUE)
-            mask = cv2.inRange(hsv_frame,
-                               hsv_lower_norm,
-                               hsv_upper_norm)
-            return cv2.bitwise_and(clone, clone, mask=mask)
+            if frame is None:
+                print("Frame is None!")
+            else:
+                clone = frame.copy()
+                hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+                hsv_lower_norm = hsv_normilize(*cfg.THRESHOLD_LOWER_BLUE)
+                hsv_upper_norm = hsv_normilize(*cfg.THRESHOLD_UPPER_BLUE)
+                mask = cv2.inRange(hsv_frame,
+                                   hsv_lower_norm,
+                                   hsv_upper_norm)
+                return cv2.bitwise_and(clone, clone, mask=mask)
 
         filtered_frame = filter_color(frame,
                                       cfg.THRESHOLD_LOWER_BLUE,
