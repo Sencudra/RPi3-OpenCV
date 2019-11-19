@@ -4,8 +4,8 @@ import cv2
 import config as cfg
 
 from camera import Camera as cam
-from recognizer import Recognizer as rec
-from gpio import GPIO as GPIO
+from server.recognizer import Recognizer as rec
+from gpio.gpio import GPIO as GPIO
 
 
 # Wierd helpers
@@ -42,10 +42,10 @@ if __name__ == "__main__":
         # LEDs
         if center_list:
             gpio.signal_led.turn_on()
-            gpio.pi.turn_on()
+            gpio.buzzer.turn_on()
         else:
             gpio.signal_led.turn_off()
-            gpio.pi.turn_off()
+            gpio.buzzer.turn_off()
 
         # Servo
         if center_list:

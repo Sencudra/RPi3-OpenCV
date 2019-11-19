@@ -11,7 +11,7 @@ class SERVO:
         """
             Should be carefull while initialising Servos. No checks here.
         """
-        print(f"Configuring SERVO pin: {pin}.")
+        print(f"SERVO pin configuring: {pin}.")
         self.pin = pin
         self.angle = 0
 

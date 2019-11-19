@@ -10,7 +10,7 @@ class LED:
         """
             Should be carefull while initialising LEDs. No checks here.
         """
-        print(f"Configuring LED pin: {pin}.")
+        print(f"LED pin configuring: {pin}.")
         self.pin = pin
         self.mode = False
 
