@@ -1,4 +1,5 @@
 
+import logging as log
 import config as cfg
 
 if cfg.IF_IN_RPI:
@@ -10,7 +11,7 @@ class LED:
         """
             Should be carefull while initialising LEDs. No checks here.
         """
-        print(f"LED pin configuring: {pin}.")
+        log.info(f"LED - Initialising. Pin used: {pin}.")
         self.pin = pin
         self.mode = False
 
@@ -20,14 +21,13 @@ class LED:
     def turn_on(self):
         if not self.mode:
             self.mode = not self.mode
-            print(f"LED {self.pin} is on!")
+            log.info(f"LED - {self.pin} is on")
             if cfg.IF_IN_RPI:
-                print("RPI on")
                 GPIO.output(self.pin, True)
 
     def turn_off(self):
         if self.mode:
             self.mode = not self.mode
-            print(f"LED {self.pin} is off!")
+            log.info(f"LED - {self.pin} is off")
             if cfg.IF_IN_RPI:
                 GPIO.output(self.pin, False)

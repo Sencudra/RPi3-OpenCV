@@ -1,4 +1,7 @@
 
+import random
+import logging as log
+
 import config as cfg
 
 if cfg.IF_IN_RPI:
@@ -10,13 +13,22 @@ class DistanceSensor:
         """
             Should be carefull while initialising LEDs. No checks here.
         """
-        print(f"Distance Sensor pin configuring: {echo_pin}, {trig_pin}.")
+        log.info(f"DS - Initialising. Pins used: {echo_pin}, {trig_pin}.")
         self.echo_pin = echo_pin
         self.trig_pin = trig_pin
 
     def get_distance(self):
-        print("Distance Sensor: measuring distance")
-        value = sensor.Measurement(self.trig_pin,
-                                   self.echo_pin)
-        raw_distance = value.raw_distance()
-        return value.distance_metric(raw_distance)
+        log.info("DS - Measuring distance...")
+
+        distance = None
+
+        if cfg.IF_IN_RPI:
+            value = sensor.Measurement(self.trig_pin,
+                                       self.echo_pin)
+            raw_distance = value.raw_distance()
+            distance = value.distance(raw_distance)
+        else:
+            distance = random.randint(0, 500)
+
+        log.info(f"DS - Distance: {distance} cm measured")
+        return distance

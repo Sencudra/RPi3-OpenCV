@@ -1,5 +1,6 @@
 
 import time
+import logging as log
 
 import config as cfg
 
@@ -12,7 +13,7 @@ class Buzzer:
         """
             Should be carefull while initialising PIs. No checks here.
         """
-        print(f"Buzzer pin configuring: {pin}.")
+        log.info(f"Buzzer - Initialising. Pin used: {pin}.")
         self.pin = pin
         self.mode = False
 
@@ -22,6 +23,7 @@ class Buzzer:
             self.pwm.start(0)
 
     def __del__(self):
+        log.info("Buzzer - Cleaning...")
         if cfg.IF_IN_RPI:
             self.pwm.stop()
 
@@ -32,20 +34,20 @@ class Buzzer:
         elif number < 0:
             number = 0
 
-        print("Buzzer: Changing Frequency")
+        log.info("Buzzer - Changing Frequency")
         self.pwm.ChangeFrequency(percent / 100 * 22000)
 
     def turn_on(self):
         if not self.mode:
             self.mode = not self.mode
-            print(f"Buzzer {self.pin} is on!")
+            log.info(f"Buzzer - {self.pin} is on")
             if cfg.IF_IN_RPI:
                 self.pwm.start(70)
 
     def turn_off(self):
         if self.mode:
             self.mode = not self.mode
-            print(f"Buzzer {self.pin} is off!")
+            log.info(f"Buzzer - {self.pin} is off")
             if cfg.IF_IN_RPI:
                 self.pwm.start(0)
 

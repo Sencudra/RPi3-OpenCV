@@ -1,8 +1,14 @@
 
+import logging
 import numpy as np
 
+# Logger setup
+logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p',
+                    level=logging.DEBUG)
 
 # RPi
+DEFAULT_ENCODING = 'utf8'
 IF_IN_RPI = False  # False - will supress using RPI only libraries
 
 HOST_IP = "192.168.1.76"
