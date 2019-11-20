@@ -1,33 +1,30 @@
 
 import socket
+import logging as log
 
 import config as cfg
 
 
 class Client:
+    """
+        Just sending data without any checks.
+    """
 
     def __init__(self):
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = cfg.HOST_IP
-        self.port = cfg.HOST_PORT
+        pass
 
-        self.socket.connect((self.host, self.port))
+    def send_data(self, data, to_ip, with_port):
+        log.info("Client - Sending data...")
 
-        while True:
-            data = bytes(input('write to server: '), encoding='utf8')
+        if not data:
+            print("Client - No data to send.")
+            return
 
-            if not data:
-                self.socket.close()
-                exit(1)
-            else:
-                self.socket.send(data)
-
-            received_data = self.socket.recv(2014)
-            print(received_data.decode('utf8'))
-
-    def __del__(self):
-        self.socket.close()
-
-
-if __name__ == "__main__":
-    client = Client()
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.settimeout(1)
+                s.connect((to_ip, with_port))
+                s.sendall(bytes(data, enconding=cfg.DEFAULT_ENCODING))
+                s.close()
+            except socket.timeout as error:
+                log.error(f"Client - {error}")
