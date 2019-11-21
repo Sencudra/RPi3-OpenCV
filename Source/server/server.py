@@ -1,36 +1,41 @@
 
 import socket
-
-import config as cfg
+import logging as log
 
 
 class Server:
+    """
+        Receives data from client.
+    """
 
-    def __init__(self):
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = cfg.HOST_IP
-        self.port = cfg.HOST_PORT
+    def __init__(self, ip, port, container):
+        """
+            Possible errors:
+                - 10048 - The port is buzy
+                - 10049 - The ip:port differs from machine's
 
-        self.socket.bind((self.host, self.port))
-        self.socket.listen(1)
-        self.connection, self.address = self.socket.accept()
-        print(f"Client {self.address} is connected!")
+        """
 
-        while True:
-            data = bytes(input('write to client: '), encoding='utf8')
-            self.connection.send(data)
+        log.info("Server - Initialising. Receiving data...")
 
-            data = self.connection.recv(1024)
+        self.ip = ip
+        self.port = port
+        self.container = container
 
-            if not data:
-                self.connection.close()
-                exit()
-            else:
-                print(data.decode('utf8'))
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
-    def __del__(self):
-        self.connection.close()
+            try:
+                s.bind((ip, port))
+                s.listen()
+                log.info("Server - Waiting for incoming connections...")
+                conn, addr = s.accept()
 
-
-if __name__ == "__main__":
-    server = Server()
+                with conn:
+                    log.info(f"Server - Connected by {addr}")
+                    while True:
+                        data = conn.recv(4).decode()
+                        if data:
+                            log.info(f"Server - received {data}")
+                            container.append(data)
+            except socket.error as e:
+                log.error(f"Server - {e}")

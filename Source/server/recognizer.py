@@ -1,6 +1,7 @@
 
 import cv2
 
+import logging as log
 import config as cfg
 
 
@@ -16,7 +17,7 @@ class Recognizer:
 
         def filter_color(frame, lower_threshold, upper_threshold):
             if frame is None:
-                print("Frame is None!")
+                log.error("Recognizer - Frame is None!")
             else:
                 clone = frame.copy()
                 hsv_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)

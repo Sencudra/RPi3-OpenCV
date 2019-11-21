@@ -10,21 +10,29 @@ class Client:
         Just sending data without any checks.
     """
 
-    def __init__(self):
-        pass
+    def __init__(self, to_ip, with_port):
+        self.ip = to_ip
+        self.port = with_port
+        self.socket = socket.socket(socket.AF_INET,
+                                    socket.SOCK_STREAM)
+        self.socket.settimeout(1)
 
-    def send_data(self, data, to_ip, with_port):
+        try:
+            self.socket.connect((self.ip, self.port))
+        except socket.error as e:
+            log.error(f"Client - {e}")
+
+    def send_data(self, data):
         log.info("Client - Sending data...")
 
         if not data:
             print("Client - No data to send.")
             return
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            try:
-                s.settimeout(1)
-                s.connect((to_ip, with_port))
-                s.sendall(bytes(data, enconding=cfg.DEFAULT_ENCODING))
-                s.close()
-            except socket.timeout as error:
-                log.error(f"Client - {error}")
+        try:
+            self.socket.sendall(bytes(data))
+        except socket.error as e:
+            log.error(f"Client - {e}")
+
+    def __del__(self):
+        self.socket.close()

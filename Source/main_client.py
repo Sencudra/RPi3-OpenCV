@@ -11,7 +11,6 @@ from gpio.distance_sensor import DistanceSensor as DS
 
 
 if __name__ == "__main__":
-
     log.info("Client - initialising...")
 
     if not cfg.IF_IN_RPI:
@@ -22,7 +21,8 @@ if __name__ == "__main__":
     gpio.distance_sensor = DS(echo_pin=cfg.DISTANCE_SENSOR_ECHO_PIN,
                               trig_pin=cfg.DISTANCE_SENSOR_TRIG_PIN)
 
-    client = Client()
+    client = Client(to_ip=cfg.HOST_IP,
+                    with_port=cfg.HOST_PORT)
 
     try:
         old_distance = None
@@ -30,15 +30,13 @@ if __name__ == "__main__":
             distance = gpio.distance_sensor.get_distance()
 
             if distance != old_distance:
-                client.send_data(distance,
-                                 cfg.HOST_IP,
-                                 cfg.HOST_PORT)
+                client.send_data(distance)
                 old_distance = distance
                 gpio.signal_led.turn_on()
-                sleep(0.2)
+                sleep(1)
                 gpio.signal_led.turn_off()
             else:
                 sleep(1)
-    except KeyboardInterrupt as e:
-        log.info(e)
+    except KeyboardInterrupt:
+        log.error("Client - KeyboardInterrupt")
         pass

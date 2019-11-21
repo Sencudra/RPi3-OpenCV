@@ -11,8 +11,8 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
 DEFAULT_ENCODING = 'utf8'
 IF_IN_RPI = False  # False - will supress using RPI only libraries
 
-HOST_IP = "192.168.1.76"
-HOST_PORT = 65000
+HOST_IP = "192.168.1.67"
+HOST_PORT = 65001
 
 # Window
 WINDOW_ORIGINAL_IMAGE = "Lab 4: Original"
