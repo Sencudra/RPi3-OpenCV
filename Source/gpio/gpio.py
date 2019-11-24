@@ -10,7 +10,6 @@ class GPIO:
 
     signal_led = None
     buzzer = None
-    buzzer = None
     distance_sensor = None
 
     def __init__(self):

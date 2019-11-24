@@ -28,14 +28,16 @@ class Buzzer:
             self.pwm.stop()
 
     def change_pitch(self, percent):
-        number = percent
-        if number > 100:
-            number = 100
-        elif number < 0:
-            number = 0
+        frequency = None
+        if percent > 100:
+            frequency = 100
+        elif percent < 0:
+            frequency = 0
+        frequency = percent / 100 * 2000
 
-        log.info("Buzzer - Changing Frequency")
-        self.pwm.ChangeFrequency(percent / 100 * 22000)
+        log.info(f"Buzzer - Frequency {frequency}Hz {percent}%")
+        if cfg.IF_IN_RPI:
+            self.pwm.ChangeFrequency(frequency)
 
     def turn_on(self):
         if not self.mode:

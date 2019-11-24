@@ -1,6 +1,7 @@
 
 import socket
 import logging as log
+import threading as thr
 
 
 class Server:
@@ -9,33 +10,45 @@ class Server:
     """
 
     def __init__(self, ip, port, container):
-        """
-            Possible errors:
-                - 10048 - The port is buzy
-                - 10049 - The ip:port differs from machine's
-
-        """
-
-        log.info("Server - Initialising. Receiving data...")
+        log.info(f"Server - [{ip}:{port}] Initialising...")
 
         self.ip = ip
         self.port = port
         self.container = container
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.thread = None
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-
+    def start(self):
+        log.info("Server - Starting server...")
+        with self.socket as s:
             try:
-                s.bind((ip, port))
+                s.bind((self.ip, self.port))
                 s.listen()
-                log.info("Server - Waiting for incoming connections...")
-                conn, addr = s.accept()
 
-                with conn:
-                    log.info(f"Server - Connected by {addr}")
-                    while True:
-                        data = conn.recv(4).decode()
-                        if data:
-                            log.info(f"Server - received {data}")
-                            container.append(data)
+                while True:
+                    log.info("Server - Waiting for incoming connections...")
+                    conn, addr = s.accept()
+                    self.thread = thr.Thread(target=self.__handle_new_client,
+                                             args=(conn, addr),
+                                             daemon=True)
+                    self.thread.start()
             except socket.error as e:
                 log.error(f"Server - {e}")
+
+    def __handle_new_client(self, socket_connection, address):
+        log.info(f"Server - Handling connection from {address}")
+        while True:
+            try:
+                data = socket_connection.recv(1024).decode()
+                log.info(f"Server - Received data {data} from {address}")
+                if not data:
+                    break
+                self.container.append(data)
+            except socket.error as e:
+                log.warning(e)
+                break
+        log.info(f"Server - Finishing handling connection from {address}")
+
+    def __del__(self):
+        log.info("Server - Closing socket")
+        self.socket.close()

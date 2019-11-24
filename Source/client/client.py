@@ -15,7 +15,7 @@ class Client:
         self.port = with_port
         self.socket = socket.socket(socket.AF_INET,
                                     socket.SOCK_STREAM)
-        self.socket.settimeout(1)
+        self.socket.settimeout(cfg.SOCKET_TIMEOUT)
 
         try:
             self.socket.connect((self.ip, self.port))
@@ -23,16 +23,17 @@ class Client:
             log.error(f"Client - {e}")
 
     def send_data(self, data):
-        log.info("Client - Sending data...")
-
         if not data:
-            print("Client - No data to send.")
+            log.warning("Client - No data to send.")
             return
 
+        log.info(f"Client - Sending {data}")
         try:
-            self.socket.sendall(bytes(data))
+            array_to_send = bytes(str(data), encoding=cfg.DEFAULT_ENCODING)
+            self.socket.sendall(array_to_send)
         except socket.error as e:
             log.error(f"Client - {e}")
 
     def __del__(self):
+        log.info("Client - Closing socket!")
         self.socket.close()

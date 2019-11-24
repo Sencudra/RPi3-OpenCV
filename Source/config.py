@@ -2,17 +2,31 @@
 import logging
 import numpy as np
 
-# Logger setup
+
+"""
+    Common
+"""
+
+# Global
+IF_IN_RPI = False  # False - will supress using RPI only libraries
+
+# Logger
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 
-# RPi
+# Text
 DEFAULT_ENCODING = 'utf8'
-IF_IN_RPI = False  # False - will supress using RPI only libraries
 
-HOST_IP = "192.168.1.67"
-HOST_PORT = 65001
+# Network
+HOST_IP = "127.0.0.1"
+HOST_PORT = 65000
+SOCKET_TIMEOUT = 1
+
+# Stream
+LOAD_STREAM = False
+STREAM_RTSP_IP = "rtsp://192.168.1.68/554"  # Change ip and port
+STREAM_WEB_ID = 0                           # Web camera
 
 # Window
 WINDOW_ORIGINAL_IMAGE = "Lab 4: Original"
@@ -22,10 +36,6 @@ WINDOW_MODIFIED_IMAGE = "Lab 4: Modified"
 WAIT_KEY = "q"
 WAIT_KEY_TIME = 1
 
-# Stream
-LOAD_STREAM = False
-STREAM_RTSP_IP = "rtsp://192.168.1.68/554"  # Change ip and port
-STREAM_WEB_ID = 0                           # Web camera
 
 """
     Peripherals
@@ -45,6 +55,7 @@ BUZZER_DEFAULT_FREQUENCY = 100
 # Distance sensor
 DISTANCE_SENSOR_ECHO_PIN = 23
 DISTANCE_SENSOR_TRIG_PIN = 24
+DUSTANCE_SENSOR_MAX = 500
 
 """
     Filters

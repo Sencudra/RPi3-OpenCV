@@ -33,8 +33,9 @@ if __name__ == "__main__":
                 client.send_data(distance)
                 old_distance = distance
                 gpio.signal_led.turn_on()
-                sleep(1)
+                sleep(0.1)
                 gpio.signal_led.turn_off()
+                sleep(0.9)
             else:
                 sleep(1)
     except KeyboardInterrupt:
