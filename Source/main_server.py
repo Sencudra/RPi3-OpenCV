@@ -79,7 +79,7 @@ if __name__ == "__main__":
             if container:
                 distance = int(container.pop())
                 percent = distance_to_percent(distance)
-                gpio.buzzer.change_pitch(percent)
+                gpio.buzzer.change_loudness(percent)
 
             # LEDs
             if center_list:

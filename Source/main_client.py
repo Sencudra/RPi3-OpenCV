@@ -30,7 +30,7 @@ if __name__ == "__main__":
             distance = gpio.distance_sensor.get_distance()
 
             if distance != old_distance:
-                client.send_data(distance)
+                client.send_data(int(distance))
                 old_distance = distance
                 gpio.signal_led.turn_on()
                 sleep(0.1)
