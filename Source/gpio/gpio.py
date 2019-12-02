@@ -11,6 +11,7 @@ class GPIO:
     signal_led = None
     buzzer = None
     distance_sensor = None
+    servo = None
 
     def __init__(self):
         log.info("GPIO - Initialising...")

@@ -11,23 +11,23 @@ class LED:
         """
             Should be carefull while initialising LEDs. No checks here.
         """
-        log.info(f"LED - Initialising. Pin used: {pin}.")
         self.pin = pin
         self.mode = False
-
+        log.info("LED - Initialising. Pin used: {pin}.".format(pin=self.pin))
+    
         if cfg.IF_IN_RPI:
-            GPIO.setup(pin, GPIO.OUT)
+            GPIO.setup(self.pin, GPIO.OUT)
 
     def turn_on(self):
         if not self.mode:
             self.mode = not self.mode
-            log.info(f"LED - {self.pin} is on")
+            log.info("LED - {pin} is on".format(pin=self.pin))
             if cfg.IF_IN_RPI:
                 GPIO.output(self.pin, True)
 
     def turn_off(self):
         if self.mode:
             self.mode = not self.mode
-            log.info(f"LED - {self.pin} is off")
+            log.info("LED - {pin} is off".format(pin=self.pin))
             if cfg.IF_IN_RPI:
                 GPIO.output(self.pin, False)

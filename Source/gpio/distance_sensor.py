@@ -13,7 +13,8 @@ class DistanceSensor:
         """
             Should be carefull while initialising LEDs. No checks here.
         """
-        log.info(f"DS - Initialising. Pins used: {echo_pin}, {trig_pin}.")
+        log.info("DS - Initialising. Pins used: {echo_pin}, {trig_pin}.".format(echo_pin=echo_pin,
+                                                                                trig_pin=trig_pin))
         self.echo_pin = echo_pin
         self.trig_pin = trig_pin
 
@@ -30,5 +31,5 @@ class DistanceSensor:
         else:
             distance = random.randint(0, 500)
 
-        log.info(f"DS - Distance: {distance} cm measured")
+        log.info("DS - Distance: {distance} cm measured".format(distance=distance))
         return distance

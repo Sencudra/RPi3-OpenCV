@@ -1,5 +1,5 @@
 
-import loggin as log
+import logging as log
 from time import sleep
 
 import config as cfg
@@ -8,12 +8,12 @@ if cfg.IF_IN_RPI:
     import RPi.GPIO as GPIO
 
 
-class SERVO:
+class Servo:
     def __init__(self, pin):
         """
             Should be carefull while initialising Servos. No checks here.
         """
-        log.info(f"SERVO - Initialising. Pin used: {pin}.")
+        log.info("SERVO - Initialising. Pin used: {pin}.".format(pin=pin))
         self.pin = pin
         self.angle = 0
 
@@ -26,7 +26,7 @@ class SERVO:
 
     def set_angle(self, angle):
         # some magic here idk
-        log.info(f"Setting angle {self.angle}")
+        log.info("Setting angle {angle}".format(angle=self.angle))
 
         if cfg.IF_IN_RPI:
             duty = angle / 18 + 2

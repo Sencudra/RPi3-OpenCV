@@ -14,6 +14,7 @@ from server.server import Server
 from gpio.gpio import GPIO
 from gpio.buzzer import Buzzer
 from gpio.led import LED
+from gpio.servo import Servo
 
 
 # Wierd helpers
@@ -28,13 +29,13 @@ def find_x_center(points):
 
 
 def start_server_thread(name, server):
-    log.info(f"Server - Starting server in a daemon thread {name} ....")
+    log.info("Server - Starting server in a daemon thread {name}".format(name=name))
     server.start()
 
 
 def distance_to_percent(distance):
     percent = abs(1 - distance / cfg.DUSTANCE_SENSOR_MAX * 100)
-    log.info(f"Server - Distance percent calculated {percent}")
+    log.info("Server - Distance percent calculated {percent}".format(percent=percent))
     return percent
 
 
@@ -60,6 +61,7 @@ if __name__ == "__main__":
     gpio.signal_led = LED(pin=cfg.LED_PIN)
     gpio.buzzer = Buzzer(pin=cfg.BUZZER_PIN)
     gpio.buzzer.turn_on()
+    gpio.servo = Servo(pin=cfg.SERVO_PIN)
 
     s = Server(ip=cfg.HOST_IP, port=cfg.HOST_PORT, container=container)
     thr.Thread(target=start_server_thread,
@@ -90,11 +92,23 @@ if __name__ == "__main__":
             # Servo
             if center_list:
                 center = find_x_center(center_list)
+                log.info("Center: {center}".format(center=center))
                 cv2.circle(frame,
                            (center, frame.shape[0] // 2),
                            cfg.DRAW_CENTER_RADIUS,
                            cfg.DRAW_COLOR_GREEN,
                            cfg.DRAW_CIRCLE_THICKNESS)
+                
+                x = frame.shape[1] // 2 - center
+                direction = None
+                if x > 0:
+                    direction = -5
+                elif x < 0:
+                    direction = 5
+                else:
+                    direction = 0
+                
+                gpio.servo.set_angle(gpio.servo.angle + direction)
 
             cv2.imshow(cfg.WINDOW_ORIGINAL_IMAGE, frame)
             cv2.imshow(cfg.WINDOW_MODIFIED_IMAGE, frame_modified)
@@ -105,5 +119,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         log.error("Server - KeyboardInterrupt")
 
-    gpio.buzzer.turn_off()
     cv2.destroyAllWindows()

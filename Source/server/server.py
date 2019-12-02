@@ -10,7 +10,7 @@ class Server:
     """
 
     def __init__(self, ip, port, container):
-        log.info(f"Server - [{ip}:{port}] Initialising...")
+        log.info("Server - [{ip}:{port}] Initialising...".format(ip=ip, port=port))
 
         self.ip = ip
         self.port = port
@@ -33,21 +33,22 @@ class Server:
                                              daemon=True)
                     self.thread.start()
             except socket.error as e:
-                log.error(f"Server - {e}")
+                log.error("Server - {message}".format(message=e))
 
     def __handle_new_client(self, socket_connection, address):
-        log.info(f"Server - Handling connection from {address}")
+        log.info("Server - Handling connection from {address}".format(address=address))
         while True:
             try:
                 data = socket_connection.recv(1024).decode()
-                log.info(f"Server - Received data {data} from {address}")
+                log.info("Server - Received data {data} from {address}".format(data=data,
+                                                                               address=address))
                 if not data:
                     break
                 self.container.append(data)
             except socket.error as e:
                 log.warning(e)
                 break
-        log.info(f"Server - Finishing handling connection from {address}")
+        log.info("Server - Finishing handling connection from {address}".format(address=address))
 
     def __del__(self):
         log.info("Server - Closing socket")

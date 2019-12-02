@@ -13,14 +13,15 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.DEBUG)
 
 # Global
-IF_IN_RPI = False  # defaul: False - will NOT use RPi libraries.
+IF_IN_RPI = True  # defaul: False - will NOT use RPi libraries.
 
 # Text
 DEFAULT_ENCODING = 'utf8'
 
 # Network
-HOST_IP = "127.0.0.1"
-HOST_PORT = 65000
+LOCAL_HOST_IP = "127.0.0.1"
+HOST_IP = "192.168.1.135"
+HOST_PORT = 65201
 SOCKET_TIMEOUT = 1
 
 # Stream
@@ -50,13 +51,13 @@ SERVO_FREQUENCY = 50
 
 # Buzzer
 BUZZER_PIN = 18
-BUZZER_DEFAULT_FREQUENCY = 100
+BUZZER_DEFAULT_FREQUENCY = 300
 BUZZER_DEFAULT_LOUDNESS = 0
 
 # Distance sensor
 DISTANCE_SENSOR_ECHO_PIN = 23
 DISTANCE_SENSOR_TRIG_PIN = 24
-DUSTANCE_SENSOR_MAX = 500
+DUSTANCE_SENSOR_MAX = 200
 
 """
     Filters
