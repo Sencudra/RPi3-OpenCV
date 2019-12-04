@@ -1,3 +1,5 @@
+[![codebeat badge](https://codebeat.co/badges/cb2b111e-755f-42a0-892d-e3145d801439)](https://codebeat.co/projects/github-com-sencudra-rpi3-opencv-master)
+
 ## About project
 
 ![](images/example.png)
