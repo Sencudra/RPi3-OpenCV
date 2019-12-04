@@ -14,7 +14,7 @@ class LED:
         self.pin = pin
         self.mode = False
         log.info("LED - Initialising. Pin used: {pin}.".format(pin=self.pin))
-    
+
         if cfg.IF_IN_RPI:
             GPIO.setup(self.pin, GPIO.OUT)
 

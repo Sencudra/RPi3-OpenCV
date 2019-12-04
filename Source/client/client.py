@@ -20,19 +20,19 @@ class Client:
         try:
             self.socket.connect((self.ip, self.port))
         except socket.error as e:
-            log.error(f"Client - {e}")
+            log.error("Client - {message}".format(message=e))
 
     def send_data(self, data):
         if not data:
             log.warning("Client - No data to send.")
             return
 
-        log.info(f"Client - Sending {data}")
+        log.info("Client - Sending {data}".format(data=data))
         try:
             array_to_send = bytes(str(data), encoding=cfg.DEFAULT_ENCODING)
             self.socket.sendall(array_to_send)
         except socket.error as e:
-            log.error(f"Client - {e}")
+            log.error("Client - {message}".format(message=e))
 
     def __del__(self):
         log.info("Client - Closing socket!")

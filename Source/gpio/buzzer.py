@@ -46,13 +46,12 @@ class Buzzer:
                 self.__setVolume(0)
 
     def __setVolume(self, percent):
-        loudness = None
-        if percent > 100:
-            loudness = 100
-        elif percent < 0:
-            loudness = 0
-        else:
-            loudness = percent
-        self.loudness = loudness
+        self.loudness = self.__normalise(percent)
         self.pwm.start(float(self.loudness))
-        log.info("Buzzer - Loudness is {loudness}".format(loudness=self.loudness))
+
+        log.info("Buzzer - Loudness is {loudness}".format(
+            loudness=self.loudness
+        ))
+
+    def __normalise(self, value, min_value=0, max_value=100):
+        return max(min_value, min(max_value, value))

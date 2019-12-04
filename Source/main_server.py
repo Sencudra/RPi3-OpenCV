@@ -29,13 +29,17 @@ def find_x_center(points):
 
 
 def start_server_thread(name, server):
-    log.info("Server - Starting server in a daemon thread {name}".format(name=name))
+    log.info("Server - Starting server in a daemon thread {name}".format(
+        name=name
+    ))
     server.start()
 
 
 def distance_to_percent(distance):
     percent = abs(1 - distance / cfg.DUSTANCE_SENSOR_MAX * 100)
-    log.info("Server - Distance percent calculated {percent}".format(percent=percent))
+    log.info("Server - Distance percent calculated {percent}".format(
+        percent=percent
+    ))
     return percent
 
 
@@ -92,14 +96,8 @@ if __name__ == "__main__":
             # Servo
             if center_list:
                 center = find_x_center(center_list)
-                log.info("Center: {center}".format(center=center))
-                cv2.circle(frame,
-                           (center, frame.shape[0] // 2),
-                           cfg.DRAW_CENTER_RADIUS,
-                           cfg.DRAW_COLOR_GREEN,
-                           cfg.DRAW_CIRCLE_THICKNESS)
-                
                 x = frame.shape[1] // 2 - center
+
                 direction = None
                 if x > 0:
                     direction = -5
@@ -107,7 +105,7 @@ if __name__ == "__main__":
                     direction = 5
                 else:
                     direction = 0
-                
+
                 gpio.servo.set_angle(gpio.servo.angle + direction)
 
             cv2.imshow(cfg.WINDOW_ORIGINAL_IMAGE, frame)

@@ -26,6 +26,7 @@ class Servo:
 
     def set_angle(self, angle):
         # some magic here idk
+        self.angle = angle
         log.info("Setting angle {angle}".format(angle=self.angle))
 
         if cfg.IF_IN_RPI:
