@@ -1,7 +1,6 @@
 
 import cv2
 
-from time import sleep
 import threading as thr
 import logging as log
 

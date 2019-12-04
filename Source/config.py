@@ -13,7 +13,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.DEBUG)
 
 # Global
-IF_IN_RPI = True  # defaul: False - will NOT use RPi libraries.
+IF_IN_RPI = False  # defaul: False - will NOT use RPi libraries.
 
 # Text
 DEFAULT_ENCODING = 'utf8'
